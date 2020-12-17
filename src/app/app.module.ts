@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
-// import { environment } from './../environments/environment.prod';
-import { environment } from './../environments/environment'; // localhost
+import { environment } from './../environments/environment.prod';
+// import { environment } from './../environments/environment'; // localhost
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
