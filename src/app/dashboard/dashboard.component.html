@@ -1,0 +1,152 @@
+<!-- <div class="row">
+    <div class="col-lg-12">
+        <div class="text-right mb-4 mt-0">
+            <b class="mr-4">จำนวนผู้บริจาค</b>
+            <h1 class="d-inline "><span class="badge badge-success">{{ total_donate | number:'1.0' }}</span>
+            </h1>
+            <b class="ml-4 mr-4">จำนวนเงิน/มูลค่า</b>
+            <h1 class="d-inline"><span class="badge badge-success">{{ total_amount | number:'1.2-2' }}</span>
+            </h1>
+
+        </div>
+    </div>
+</div> -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="shadow-sm p-4 bg-white">
+            <div class="row">
+                <div class="col-lg">
+                    <h6 class="mb-3">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16"
+                            class="bi bi-chat-square-dots-fill text-primary mr-1" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm5 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                        </svg>
+                        ค้นหารายการบริจาคของท่านจาก เลือกประเภทและระบุ
+                        ชื่อ/สกุล/รายละเอียด วัถตุประสงค์</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg">
+                    <form (ngSubmit)="onSubmit()" [formGroup]="formSearch">
+                        <div class="form-row align-items-center">
+                            <div class="col-lg-7">
+                                <label class="sr-only" for="inlineFormInputGroup">ค้นหา</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            คำค้น
+                                        </div>
+                                    </div>
+                                    <select class="custom-select" formControlName="category" style="max-width: 250px;"
+                                        (change)="onChangeCategory($event)">
+                                        <option value="">เลือก</option>
+                                        <option [value]="category.category_id"
+                                            *ngFor="let category of categorys; let i = index" [attr.data-index]="i">
+                                            {{ category.category_name }}
+                                        </option>
+                                    </select>
+                                    <input type="text" class="form-control" placeholder=" {{searchText}}"
+                                        formControlName="search">
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <button type="submit" class="btn btn-primary mb-2 btn-sm-w">ค้นหา</button>
+                                <button type="button" class="btn btn-outline-secondary ml-2 mb-2 btn-sm-w"
+                                    (click)="onReload()"><svg width="1.2em" height="1.2em" viewBox="0 0 16 16"
+                                        class="bi bi-arrow-clockwise" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                        <path
+                                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                    </svg></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover" *ngIf="category == 1 && cashData.length > 0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 18%">ชื่อ-นามสกุล</th>
+                                    <th scope="col" style="width: 22%">กองทุน</th>
+                                    <th scope="col" style="width: 40%">
+                                        วัถตุประสงค์</th>
+                                    <th class="text-center" scope="col" style="width: 10%">จำนวนเงิน</th>
+                                    <th class="text-center" scope="col" style="width: 10%">วันที่บริจาค</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let cash of cashData; let i = index" [attr.data-index]="i">
+                                    <td>{{cash.donatename}}</td>
+                                    <td>{{cash.foundation_name}}</td>
+                                    <td>{{cash.objectivedetail_name | donateObjective}}</td>
+                                    <td class="text-right">{{cash.amount | number:'1.2-2'}}</td>
+                                    <td class="text-center">{{cash.donatedate | thaiDateAbbr}}</td>
+                                </tr>
+                                <tr *ngIf="cashData.length == 0">
+                                    <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-sm table-hover" *ngIf="category == 3 && chattelData.length > 0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 30%">ชื่อ-นามสกุล</th>
+                                    <th scope="col" style="width: 50%">รายละเอียด</th>
+                                    <th class="text-center" scope="col" style="width: 10%">จำนวนเงิน</th>
+                                    <th class="text-center" scope="col" style="width: 10%">วันที่บริจาค</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let chattel of chattelData; let i = index" [attr.data-index]="i">
+                                    <td>{{chattel.donatename}}</td>
+                                    <td>{{chattel.detail}}</td>
+                                    <td class="text-right">{{chattel.amount | number:'1.2-2'}}</td>
+                                    <td class="text-center">{{chattel.donatedate | thaiDateAbbr}}</td>
+                                </tr>
+                                <tr *ngIf="chattelData.length == 0">
+                                    <td colspan="4" class="text-center">ไม่พบข้อมูล</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div *ngIf="totalpage > 1">
+                            <hr />
+                            <div class="pagination-align">
+                                <div class="pd-pagination">
+                                    <nav class="paddlenav paddlenav-framed">
+                                        <ul>
+                                            <li>
+                                                <span class="paddlenav-arrow paddlenav-arrow-previous"
+                                                    (click)="pageChanged(current_page-1)"
+                                                    [ngClass]="{'disabled disabledpaddlenav' : 1 == current_page}"></span>
+                                            </li>
+                                            <li>
+                                                <p>
+                                                    <input type="text" id="page-text" class="as-text-box"
+                                                        [(ngModel)]="pageNumber" (change)=pageInput()>
+                                                    <span class="as-paginationtext">จาก</span>
+                                                    <span class="as-pagination-totalnumbers">{{totalpage}}</span>
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <span class="paddlenav-arrow paddlenav-arrow-next"
+                                                    (click)="pageChanged(current_page+1)"
+                                                    [ngClass]="{'disabled disabledpaddlenav' : totalpage == current_page}"></span>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

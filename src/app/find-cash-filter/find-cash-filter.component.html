@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="shadow-sm p-4 bg-white">
+            <div class="row" *ngIf="tObject != ''">
+                <div class="col-lg text-center">
+                    <h3>รายงานการบริจาค{{ tObject }} </h3>
+                    <hr class="mt-4" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg">
+                    <form (ngSubmit)="onSubmit()" [formGroup]="formSearch">
+                        <div class="form-row align-items-center">
+                            <div class="col-lg-4">
+                                <label class="sr-only" for="inlineFormInputGroup">ค้นหา</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            ปี-เดือน
+                                        </div>
+                                    </div>
+                                    <select class="custom-select" formControlName="month" style="max-width: 150px;">
+                                        <option value="">เลือก</option>
+                                        <option [value]="row.groupsdate" *ngFor="let row of month; let i = index"
+                                            [attr.data-index]="i">
+                                            {{ row.groupsdate }}
+                                        </option>
+                                    </select>
+                                    <input type="text" class="form-control" placeholder="ชื่อ สกุล"
+                                        formControlName="search">
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <button type="submit" class="btn btn-primary mb-2 btn-sm-w">ค้นหา</button>
+                                <button type="button" class="btn btn-outline-secondary ml-2 mb-2 btn-sm-w"
+                                    (click)="onReload()"><svg width="1.2em" height="1.2em" viewBox="0 0 16 16"
+                                        class="bi bi-arrow-clockwise" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                        <path
+                                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                    </svg></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover" *ngIf="cashs.length > 0">
+                            <thead>
+                                <tr>
+                                    <!-- <th scope="col" style="width: 10%">เลขที่บริจาค</th> -->
+                                    <th scope="col">ชื่อ-นามสกุล</th>
+                                    <th class="text-center" scope="col" style="width: 10%">จำนวนเงิน</th>
+                                    <th class="text-center" scope="col" style="width: 10%">วันที่บริจาค</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let cash of cashs; let i = index" [attr.data-index]="i">
+                                    <!-- <td>{{cash.id}}</td> -->
+                                    <td>{{cash.donatename}}</td>
+                                    <td class="text-right">{{cash.amount | number:'1.2-2'}}</td>
+                                    <td class="text-center">{{cash.donatedate | thaiDateAbbr}}</td>
+                                </tr>
+                                <tr *ngIf="cashs.length == 0">
+                                    <td colspan="5" class="text-center">ไม่พบข้อมูล</td>
+                                </tr>
+                                <tr style="font-weight : bold">
+                                    <td></td>
+                                    <td style="text-align: right; border-bottom-style: double;">
+                                        {{sumAmount | number : '1.2-2'}}</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
