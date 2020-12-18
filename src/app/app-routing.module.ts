@@ -5,7 +5,7 @@ import { FindCashFilterComponent } from './find-cash-filter/find-cash-filter.com
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'cash', component: FindCashFilterComponent },
   { path: '**', component: PageNotFoundComponent }

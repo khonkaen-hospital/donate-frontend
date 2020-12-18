@@ -52,7 +52,8 @@ export class FindCashFilterComponent implements OnInit {
   }
 
   onReload() {
-    this.formSearch.patchValue({ month: this.month[0]['groupsdate'] });
+    this.formSearch.reset();
+    this.formSearch.patchValue({ month: this.month[0]['groupsdate'], object: '53', search: '' });
     this.getData();
   }
 
